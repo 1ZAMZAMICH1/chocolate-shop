@@ -1,92 +1,68 @@
-import React, { useEffect, useState } from 'react';
+// Полностью замени содержимое этого файла
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AnimatePresence } from 'framer-motion';
 import { getData } from '../api/gist';
 import ProductCard from './ProductCard';
-import { Link } from 'react-router-dom';
+import LoadingSpinner from './LoadingSpinner';
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({ onDetailClick, onOrderClick }) => {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const data = await getData();
-        setProducts(data.products ? data.products.slice(0, 4) : []);
+        setProducts(data.products.slice(0, 4)); // Берем 4 товара
       } catch (err) {
         console.error("Failed to load featured products:", err);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
     fetchProducts();
   }, []);
 
-  if (isLoading) {
-    return <Section><Title>Загрузка...</Title></Section>;
-  }
-
-  if (products.length === 0) {
-    return null;
-  }
+  if (loading) return <LoadingSpinner />;
 
   return (
-    <Section>
-      <Title>Популярные товары</Title>
+    <SectionContainer>
+      <SectionTitle>Наши бестселлеры</SectionTitle>
       <ProductsGrid>
-        <AnimatePresence>
-          {products.map(product => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onOrderClick={() => {}} 
-            />
-          ))}
-        </AnimatePresence>
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onDetailClick={onDetailClick} // Передаем клик дальше
+            onOrderClick={onOrderClick}   // Передаем клик дальше
+          />
+        ))}
       </ProductsGrid>
-      <ViewAllLink to="/shop">Смотреть все товары</ViewAllLink>
-    </Section>
+    </SectionContainer>
   );
 };
 
 export default FeaturedProducts;
 
-const Section = styled.section`
-  width: 90%;
+const SectionContainer = styled.section`
   max-width: 1400px;
   margin: 0 auto;
-  padding: 5rem 0;
+  padding: 8rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
 `;
 
-const Title = styled.h2`
-  font-family: 'Playfair Display', serif;
+const SectionTitle = styled.h2`
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4.2rem;
   text-align: center;
-  font-size: 2.5rem;
-  color: var(--text-primary);
-  margin-bottom: 3rem;
 `;
 
 const ProductsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
-`;
-
-const ViewAllLink = styled(Link)`
-  display: block;
-  width: fit-content;
-  margin: 3rem auto 0;
-  padding: 0.8rem 2rem;
-  border: 1px solid var(--text-secondary);
-  color: var(--text-secondary);
-  border-radius: 5px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: var(--accent);
-    color: var(--bg-dark);
-    border-color: var(--accent);
-  }
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  width: 100%;
 `;

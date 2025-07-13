@@ -1,61 +1,77 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { getData, updateData } from '../api/gist';
+import toast from 'react-hot-toast';
 
 const OrderForm = ({ product, onOrderSuccess }) => {
-  const [name, setName] = useState('');
-  const [contact, setContact] = useState('');
+  const [formData, setFormData] = useState({
+    fio: '',
+    phone: '',
+    address: '',
+    city: '',
+    delivery: 'pickup',
+    communication: 'whatsapp',
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    if (!name || !contact) {
-      setError('Пожалуйста, заполните все поля.');
-      return;
-    }
     setIsSubmitting(true);
-    setError('');
+    const loadingToast = toast.loading('Оформляем ваш заказ...');
 
     try {
       const currentData = await getData();
       const newOrder = {
         id: `order${Date.now()}`,
-        customerName: name,
-        customerContact: contact,
-        productId: product.id,
+        date: new Date().toISOString(),
         productName: product.name,
         price: product.price,
-        date: new Date().toISOString(),
         status: 'new',
+        customer: { ...formData },
       };
 
       const updatedData = {
         ...currentData,
-        orders: [newOrder, ...currentData.orders],
+        orders: [newOrder, ...(currentData.orders || [])],
       };
 
       await updateData(updatedData);
+      toast.dismiss(loadingToast);
       onOrderSuccess();
-
     } catch (err) {
-      setError('Не удалось оформить заказ. Попробуйте снова.');
+      toast.dismiss(loadingToast);
+      toast.error('Не удалось оформить заказ. Попробуйте снова.');
     } finally {
       setIsSubmitting(false);
     }
-  }, [name, contact, product, onOrderSuccess]);
+  }, [formData, product, onOrderSuccess]);
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <Title>Оформление заказа</Title>
+      <h3>Оформление заказа</h3>
       <ProductInfo>
-        Вы заказываете: <strong>{product.name}</strong> за <strong>{product.price} ₽</strong>
+        Вы заказываете: <strong>{product.name}</strong> ({product.price} ₽)
       </ProductInfo>
-      <Input placeholder="Ваше имя" value={name} onChange={(e) => setName(e.target.value)} required />
-      <Input placeholder="Email или телефон для связи" value={contact} onChange={(e) => setContact(e.target.value)} required />
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      <Input name="fio" placeholder="ФИО" onChange={handleChange} required />
+      <Input name="phone" type="tel" placeholder="Номер телефона" onChange={handleChange} required />
+      <Input name="city" placeholder="Город" onChange={handleChange} required />
+      <Input name="address" placeholder="Адрес (улица, дом, квартира)" onChange={handleChange} required />
+      <Select name="delivery" onChange={handleChange} value={formData.delivery}>
+        <option value="pickup">Самовывоз</option>
+        <option value="delivery">Доставка</option>
+      </Select>
+      <Select name="communication" onChange={handleChange} value={formData.communication}>
+        <option value="whatsapp">Связаться в WhatsApp</option>
+        <option value="telegram">Связаться в Telegram</option>
+        <option value="phone_call">Позвонить</option>
+      </Select>
       <SubmitButton type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Оформляем...' : 'Заказать'}
+        {isSubmitting ? 'Обработка...' : 'Заказать'}
       </SubmitButton>
     </FormContainer>
   );
@@ -63,59 +79,9 @@ const OrderForm = ({ product, onOrderSuccess }) => {
 
 export default OrderForm;
 
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-`;
-
-const Title = styled.h2`
-  font-family: 'Playfair Display', serif;
-  text-align: center;
-  margin-bottom: 1rem;
-`;
-
-const ProductInfo = styled.p`
-  text-align: center;
-  background: var(--ui-background);
-  padding: 0.8rem;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-`;
-
-const Input = styled.input`
-  padding: 0.8rem;
-  border-radius: 5px;
-  border: 1px solid #444;
-  background: #222;
-  color: var(--text-primary);
-  font-size: 1rem;
-  &:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-`;
-
-const SubmitButton = styled.button`
-  padding: 1rem;
-  border-radius: 5px;
-  border: none;
-  background: var(--accent);
-  color: var(--bg-dark);
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-  &:hover {
-    opacity: 0.8;
-  }
-  &:disabled {
-    background: #555;
-    cursor: not-allowed;
-  }
-`;
-
-const ErrorMessage = styled.p`
-  color: #ff6b6b;
-  text-align: center;
-`;
+// Стили...
+const FormContainer = styled.form` max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; h3 { font-size: 2rem; text-align: center; margin-bottom: 1rem; } `;
+const ProductInfo = styled.p` text-align: center; margin-bottom: 1.5rem; color: var(--text-secondary); `;
+const Input = styled.input` width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid #444; background: #222; color: var(--text-primary); font-size: 1.6rem; &:focus { outline: none; border-color: var(--accent); } `;
+const Select = styled.select` width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid #444; background: #222; color: var(--text-primary); font-size: 1.6rem; &:focus { outline: none; border-color: var(--accent); } `;
+const SubmitButton = styled.button` padding: 1rem; border-radius: 8px; border: none; background: var(--accent); color: var(--bg-dark); font-size: 1.6rem; font-weight: 700; cursor: pointer; transition: opacity 0.3s ease; &:hover { opacity: 0.9; } &:disabled { background: #555; cursor: not-allowed; } `;
