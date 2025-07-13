@@ -1,124 +1,173 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
+const slides = [
+  {
+    image: "https://res.cloudinary.com/dyuywnfy3/image/upload/v1752404631/1234532_qn7vzi.png",
+    title: "ChocoPrima",
+    subtitle: "Искусство в каждом грамме. Мы превращаем лучшие какао-бобы мира в съедобные шедевры.",
+    align: 'left',
+    scale: 1,
+  },
+  {
+    image: "https://res.cloudinary.com/dyuywnfy3/image/upload/v1752404868/24531_w1kyed.png",
+    title: "Чистый вкус",
+    subtitle: "Наша философия — это честность ингредиентов и смелость вкусовых сочетаний.",
+    align: 'right',
+    scale: 1,
+  },
+  {
+    image: "https://res.cloudinary.com/dyuywnfy3/image/upload/v1752404634/511323_rhwnvs.png",
+    title: "Ручная работа",
+    subtitle: "Каждая плитка и каждая конфета созданы вручную с любовью и вниманием к деталям.",
+    align: 'left',
+    scale: 1,
+  },
+];
+
 const HeroSection = () => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  const currentSlide = slides[index];
+  const isTextLeft = currentSlide.align === 'left';
+
   return (
     <HeroContainer>
-      <TextContent>
-        <motion.h1
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          Шоколад как искусство
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          Откройте для себя мир ремесленного шоколада, где каждый кусочек рассказывает свою историю.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <ShopLink to="/shop">Вся коллекция</ShopLink>
-        </motion.div>
-      </TextContent>
-      <ImageContent>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 50 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <ImageWrapper>
-            <img src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752239484/343aa491-8845-413b-9660-176fdc32fdf1.png" alt="Handmade chocolate"/>
-          </ImageWrapper>
-        </motion.div>
-      </ImageContent>
+      <AnimatePresence mode="wait">
+        <ContentWrapper key={index} $isTextLeft={isTextLeft}>
+          <TextContent $isTextLeft={isTextLeft}>
+            <motion.h1
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            >
+              {currentSlide.title}
+            </motion.h1>
+            <motion.p
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+            >
+              {currentSlide.subtitle}
+            </motion.p>
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+            >
+              <ShopLink to="/shop">Вся коллекция</ShopLink>
+            </motion.div>
+          </TextContent>
+
+          <ImageContainer>
+            <motion.div
+              key={currentSlide.image}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: currentSlide.scale }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <img src={currentSlide.image} alt={currentSlide.title} />
+            </motion.div>
+          </ImageContainer>
+        </ContentWrapper>
+      </AnimatePresence>
     </HeroContainer>
   );
 };
 
-export default HeroSection;
-
 const HeroContainer = styled.section`
-  min-height: 90vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
   align-items: center;
-  gap: 2rem;
-  padding: 120px 5% 50px;
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-    text-align: center;
-    min-height: auto;
-    padding-top: 150px;
-    padding-bottom: 80px;
-  }
+  justify-content: center;
+  background-color: rgba(33, 21, 23, 0.85);
+  backdrop-filter: blur(8px);
+`;
+
+const ContentWrapper = styled(motion.div)`
+  display: flex;
+  flex-direction: ${({ $isTextLeft }) => ($isTextLeft ? 'row' : 'row-reverse')};
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1600px;
+  height: 100%;
+  padding: 0 3rem;
+  gap: 4rem;
 `;
 
 const TextContent = styled.div`
-  @media (max-width: 900px) {
-    order: 2;
-  }
+  flex: 1;
+  text-align: ${({ $isTextLeft }) => ($isTextLeft ? 'left' : 'right')};
+
   h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 7vw, 5rem);
-    color: var(--text-primary);
-    line-height: 1.1;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4.5rem, 7vw, 7.5rem);
+    color: #F5EAE0;
+    line-height: 1.05;
+    text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7);
   }
+
   p {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     color: var(--text-secondary);
-    max-width: 450px;
-    margin: 2rem 0;
-    @media (max-width: 900px) {
-      margin: 2rem auto;
-    }
+    margin: 3rem 0 4rem;
+    max-width: 45ch;
+    line-height: 1.7;
+    margin-left: ${({ $isTextLeft }) => ($isTextLeft ? '0' : 'auto')};
+    margin-right: ${({ $isTextLeft }) => ($isTextLeft ? 'auto' : '0')};
+  }
+`;
+
+const ImageContainer = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > div {
+    max-width: 100%;
+    max-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    filter: drop-shadow(10px 15px 25px rgba(0,0,0,0.4));
   }
 `;
 
 const ShopLink = styled(Link)`
   display: inline-block;
-  padding: 1rem 2.5rem;
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-decoration: none;
+  padding: 1.5rem 3.5rem;
+  border: 1px solid var(--accent);
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  font-weight: 600;
   border-radius: 50px;
   transition: all 0.3s ease;
+
   &:hover {
     background: var(--accent);
     color: var(--bg-dark);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 20px rgba(229, 137, 105, 0.4);
   }
 `;
 
-const ImageContent = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media (max-width: 900px) {
-    order: 1;
-    margin-bottom: 2rem;
-  }
-`;
-
-const ImageWrapper = styled.div`
-  width: clamp(300px, 40vw, 500px);
-  height: clamp(300px, 40vw, 500px);
-  filter: drop-shadow(0px 30px 20px rgba(0,0,0,0.3));
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-`;
+export default HeroSection;

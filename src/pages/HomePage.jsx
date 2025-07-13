@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import HeroSection from '../components/HeroSection';
 import FeaturedProducts from '../components/FeaturedProducts';
 import ReviewsSection from '../components/ReviewsSection';
-import ContentBlock from '../components/ContentBlock';
+import AboutSection from '../components/AboutSection';
+import ContactSection from '../components/ContactSection';
 
 const HomePage = () => {
   return (
@@ -11,11 +12,7 @@ const HomePage = () => {
       <HeroSection />
       
       <SectionWrapper>
-        <ContentBlock 
-          image="https://images.pexels.com/photos/1484516/pexels-photo-1484516.jpeg"
-          title="Только лучшие ингредиенты"
-          text="Мы используем редкие сорта какао-бобов из Южной Америки и Мадагаскара, натуральные сливки и свежие орехи. Никаких компромиссов, когда речь идет о вкусе."
-        />
+        <AboutSection />
       </SectionWrapper>
       
       <SectionWrapper hasBackground>
@@ -23,12 +20,7 @@ const HomePage = () => {
       </SectionWrapper>
 
       <SectionWrapper>
-        <ContentBlock 
-          image="https://images.pexels.com/photos/8963462/pexels-photo-8963462.jpeg"
-          title="Мастерство в каждой плитке"
-          text="Наши шоколатье — настоящие художники. Каждый трюфель и каждая плитка создаются вручную с соблюдением традиционных техник и авторских рецептов."
-          reverse={true}
-        />
+        <ContactSection />
       </SectionWrapper>
       
       <SectionWrapper hasBackground>
@@ -45,8 +37,6 @@ export default HomePage;
 const SectionWrapper = styled.div`
   padding: 3rem 0;
   background: ${({ hasBackground }) => hasBackground ? 'rgba(0,0,0,0.15)' : 'transparent'};
-  backdrop-filter: ${({ hasBackground }) => hasBackground ? 'blur(10px)' : 'none'};
-  -webkit-backdrop-filter: ${({ hasBackground }) => hasBackground ? 'blur(10px)' : 'none'};
 `;
 
 const ReviewsAnchor = styled.div`

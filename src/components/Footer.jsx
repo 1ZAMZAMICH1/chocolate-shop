@@ -2,97 +2,47 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const Footer = () => {
-  return (
-    <FooterContainer>
-      <FooterContent>
-        <FooterColumn>
-          <FooterTitle>ChocoBliss</FooterTitle>
-          <p>Премиальный шоколад ручной работы. Сделано с любовью в России.</p>
-        </FooterColumn>
-        <FooterColumn>
-          <FooterTitle>Навигация</FooterTitle>
-          <FooterLink to="/">Главная</FooterLink>
-          <FooterLink to="/shop">Магазин</FooterLink>
-          <FooterLink to="/#reviews">Отзывы</FooterLink>
-        </FooterColumn>
-        <FooterColumn>
-          <FooterTitle>Информация</FooterTitle>
-          <FooterLink to="/delivery">Доставка и оплата</FooterLink>
-          <FooterLink to="/contacts">Контакты</FooterLink>
-        </FooterColumn>
-        <FooterColumn>
-          <FooterTitle>Подписывайтесь</FooterTitle>
-          <SocialLinks>
-            <a href="#" target="_blank" rel="noopener noreferrer">IG</a>
-            <a href="#" target="_blank" rel="noopener noreferrer">TG</a>
-            <a href="#" target="_blank" rel="noopener noreferrer">VK</a>
-          </SocialLinks>
-        </FooterColumn>
-      </FooterContent>
-      <FooterBottom>
-        <p>© {new Date().getFullYear()} ChocoBliss. Все права защищены.</p>
-      </FooterBottom>
-    </FooterContainer>
-  );
-};
-
-export default Footer;
-
 const FooterContainer = styled.footer`
-  background-color: #0d0406;
-  color: var(--text-secondary);
-  padding: 4rem 5% 2rem;
-  margin-top: 5rem;
-  border-top: 1px solid var(--ui-border);
-`;
-
-const FooterContent = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-`;
-
-const FooterColumn = styled.div`
+  position: relative;
+  z-index: 10;
+  padding: 4rem 5%;
+  background-color: #211517;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
 `;
 
-const FooterTitle = styled.h4`
-  font-family: 'Playfair Display', serif;
-  color: var(--text-primary);
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+const FooterText = styled.p`
+  color: var(--text-secondary);
+  font-size: 1.4rem;
+`;
+
+const FooterNav = styled.nav`
+  display: flex;
+  gap: 2rem;
 `;
 
 const FooterLink = styled(Link)`
   color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.3s ease;
+  font-size: 1.4rem;
   &:hover {
     color: var(--accent);
   }
 `;
 
-const SocialLinks = styled.div`
-  display: flex;
-  gap: 1rem;
-  a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-weight: 700;
-    transition: color 0.3s ease;
-    &:hover {
-      color: var(--accent);
-    }
-  }
-`;
+const Footer = () => {
+  return (
+    <FooterContainer>
+      <FooterText>© {new Date().getFullYear()} ChocoBliss. Все права защищены.</FooterText>
+      <FooterNav>
+        <FooterLink to="/">Главная</FooterLink>
+        <FooterLink to="/shop">Магазин</FooterLink>
+      </FooterNav>
+    </FooterContainer>
+  );
+};
 
-const FooterBottom = styled.div`
-  text-align: center;
-  padding-top: 2rem;
-  border-top: 1px solid var(--ui-border);
-  font-size: 0.9rem;
-`;
+export default Footer;
