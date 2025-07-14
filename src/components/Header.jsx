@@ -16,6 +16,7 @@ const navItemsRight = [
 const Header = () => {
   return (
     <HeaderWrapper>
+      <ClipPathDefs />
       <NavbarContainer
         initial={{ y: -200, rotate: -5, opacity: 0 }}
         animate={{ y: 0, rotate: 0, opacity: 1 }}
@@ -62,9 +63,22 @@ const HeaderWrapper = styled.div`
   z-index: 1000;
   display: flex;
   justify-content: center;
-  background: transparent;
   overflow-x: hidden;
 `;
+
+// 👇 создаём SVG clipPath, который адаптивно растягивается
+const ClipPathDefs = () => (
+  <svg width="0" height="0">
+    <defs>
+      <clipPath id="header-clip" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0.3 Q0.038,0 0.077,0.15 L0.69,0.15 Q0.731,0.187 0.769,0 L0.923,0.112 Q0.962,0.15 1,0.037 L1,0.615 Q0.962,0.769 0.923,0.654 L0.769,0.692 Q0.731,0.654 0.69,0.769 L0.077,0.692 Q0.038,0.731 0,0.538 Z"
+          transform="scale(1, 1)"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+);
 
 const NavbarContainer = styled(motion.nav)`
   width: 100%;
@@ -73,19 +87,13 @@ const NavbarContainer = styled(motion.nav)`
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
 
-  /* 👇 немного опускаем весь контент вниз */
-  padding: 1.7rem 4rem 1.7rem 4rem;
+  padding: 1.7rem 4rem;
 
   background: linear-gradient(145deg, #3a221d, #211517);
-
-  /* 👇 оригинальная тень без обрезки */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
 
-  /* 👇 сохраняем волну везде */
-  clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
-
-  /* Убираем любые скругления — не нужно */
-  border-radius: 0;
+  /* ✅ теперь clip-path растягивается с шириной */
+  clip-path: url(#header-clip);
 
   @media (max-width: 768px) {
     padding: 1.6rem 2rem;
