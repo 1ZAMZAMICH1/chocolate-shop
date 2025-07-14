@@ -9,9 +9,14 @@ const Footer = () => {
       <FooterContent>
         <FooterColumn className="logo-col">
           <LogoLink to="/">
-            <img src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png" alt="ChocoPrima Logo" />
+            <img
+              src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png"
+              alt="ChocoPrima Logo"
+            />
           </LogoLink>
-          <p>Искусство, которое можно попробовать. Шоколадные букеты и фигуры ручной работы.</p>
+          <p>
+            Искусство, которое можно попробовать. Шоколадные букеты и фигуры ручной работы.
+          </p>
         </FooterColumn>
         <FooterColumn className="nav-col">
           <h4>Навигация</h4>
@@ -24,7 +29,6 @@ const Footer = () => {
           <h4>Связь с нами</h4>
           <PhoneNumber href="tel:+79963007514">+7 (996) 300-75-14</PhoneNumber>
           <SocialLinks>
-            {/* Место для твоих ссылок */}
             <a href="#" target="_blank" rel="noopener noreferrer"><FaVk /></a>
             <a href="#" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
             <a href="#" target="_blank" rel="noopener noreferrer"><FaTelegramPlane /></a>
@@ -38,7 +42,10 @@ const Footer = () => {
         </CopyrightLink>
         <AuthorAttribution href="https://zamzamich.netlify.app/" target="_blank" rel="noopener noreferrer">
           <span>Разработано и создано</span>
-          <img src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752427389/9076532_qvzthr.png" alt="ZAMZAMICH" />
+          <img
+            src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752427389/9076532_qvzthr.png"
+            alt="ZAMZAMICH"
+          />
         </AuthorAttribution>
       </FooterBottom>
     </FooterContainer>
@@ -47,11 +54,20 @@ const Footer = () => {
 
 export default Footer;
 
+// ----------- СТИЛИ -----------
+
 const FooterContainer = styled.footer`
   background-color: #1a100f;
   color: var(--text-secondary);
   padding: 4rem 5% 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (max-width: 900px) {
+    padding: 3rem 2% 1.5rem;
+  }
+  @media (max-width: 600px) {
+    padding: 2rem 0.8rem 1rem;
+  }
 `;
 
 const FooterContent = styled.div`
@@ -59,8 +75,17 @@ const FooterContent = styled.div`
   grid-template-columns: 2fr 1fr 1fr;
   gap: 3rem;
   margin-bottom: 3rem;
-  @media (max-width: 768px) {
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  @media (max-width: 600px) {
     grid-template-columns: 1fr;
+    gap: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    justify-items: center;
   }
 `;
 
@@ -74,6 +99,11 @@ const FooterColumn = styled.div`
   p {
     line-height: 1.7;
     max-width: 35ch;
+    margin-bottom: 0.7rem;
+  }
+  @media (max-width: 600px) {
+    h4 { font-size: 1.36rem; margin-bottom: 1rem; }
+    p { font-size: 1.02rem; }
   }
 `;
 
@@ -85,14 +115,22 @@ const LogoLink = styled(NavLink)`
     width: 100%;
     height: auto;
   }
+  @media (max-width: 600px) {
+    width: 116px;
+    margin-bottom: 1rem;
+  }
 `;
 
 const PhoneNumber = styled.a`
   color: var(--text-primary);
   font-weight: 600;
   text-decoration: none;
+  font-size: 1.2rem;
   &:hover {
     color: var(--accent);
+  }
+  @media (max-width: 600px) {
+    font-size: 1.04rem;
   }
 `;
 
@@ -101,8 +139,13 @@ const FooterLink = styled(NavLink)`
   margin-bottom: 0.8rem;
   color: var(--text-secondary);
   text-decoration: none;
+  font-size: 1.1rem;
   &:hover {
     color: var(--accent);
+  }
+  @media (max-width: 600px) {
+    font-size: 0.99rem;
+    margin-bottom: 0.6rem;
   }
 `;
 
@@ -110,6 +153,7 @@ const SocialLinks = styled.div`
   display: flex;
   gap: 1.5rem;
   margin-top: 1rem;
+
   a {
     color: var(--text-secondary);
     font-size: 1.8rem;
@@ -118,6 +162,12 @@ const SocialLinks = styled.div`
       color: var(--accent);
       transform: translateY(-3px);
     }
+  }
+
+  @media (max-width: 600px) {
+    justify-content: center;
+    gap: 1rem;
+    a { font-size: 1.44rem; }
   }
 `;
 
@@ -130,6 +180,21 @@ const FooterBottom = styled.div`
   font-size: 1.4rem;
   flex-wrap: wrap;
   gap: 1rem;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-size: 1.12rem;
+  }
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: center;
+    text-align: center;
+    font-size: 0.98rem;
+    padding-top: 1.2rem;
+  }
 `;
 
 const CopyrightLink = styled(NavLink)`
