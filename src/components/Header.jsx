@@ -14,48 +14,70 @@ const navItemsRight = [  { path: '/contacts', label: 'Контакты' },
 const Header = () => {
   return (
     <HeaderWrapper>
-      <NavbarContainer
-        initial={{ y: -200, rotate: -5, opacity: 0 }}
-        animate={{ y: 0, rotate: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 50, damping: 15, duration: 1.5, delay: 0.2 }}
-        whileHover={{ scale: 1.02 }}
-      >
-        <NavSection>
-          {navItemsLeft.map(item => (
-            <StyledNavLink key={item.path} to={item.path}>
-              {item.label}
-            </StyledNavLink>
-          ))}
-        </NavSection>
-
-        <LogoContainer to="/">
-          <img src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png" alt="ChocoPrima Logo" />
-        </LogoContainer>
-
-        <NavSection>
-          {navItemsRight.map(item => (
-            <StyledNavLink key={item.path} to={item.path}>
-              {item.label}
-            </StyledNavLink>
-          ))}
-        </NavSection>
-      </NavbarContainer>
+      <ScaleContainer>
+        <NavbarContainer
+          initial={{ y: -200, rotate: -5, opacity: 0 }}
+          animate={{ y: 0, rotate: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 50, damping: 15, duration: 1.5, delay: 0.2 }}
+          whileHover={{ scale: 1.02 }}
+        >
+          <NavSection>
+            {navItemsLeft.map(item => (
+              <StyledNavLink key={item.path} to={item.path}>
+                {item.label}
+              </StyledNavLink>
+            ))}
+          </NavSection>
+          <LogoContainer to="/">
+            <img src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png" alt="ChocoPrima Logo" />
+          </LogoContainer>
+          <NavSection>
+            {navItemsRight.map(item => (
+              <StyledNavLink key={item.path} to={item.path}>
+                {item.label}
+              </StyledNavLink>
+            ))}
+          </NavSection>
+        </NavbarContainer>
+      </ScaleContainer>
     </HeaderWrapper>
   );
 };
 
 export default Header;
 
+// ----------- СТИЛИ -----------
+
 const HeaderWrapper = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 2rem;
+  top: 0; left: 0;
+  width: 100vw;
   z-index: 1000;
   display: flex;
   justify-content: center;
+  background: transparent;
+  padding: 2rem;
+
+  @media (max-width: 600px) {
+    padding: 0.5rem; 
+  }
 `;
+
+// Вот тут заворачиваем масштаб
+const ScaleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 600px) {
+    transform: scale(0.73); /* тут ловко подбирай коэффициент для идеального результата */
+    transform-origin: top center;
+    width: 100vw;
+    /* Чтобы не было горизонтального скрола: */
+    overflow: visible;
+  }
+`;
+
 const NavbarContainer = styled(motion.nav)`
   width: 95%;
   max-width: 1300px;
@@ -67,12 +89,14 @@ const NavbarContainer = styled(motion.nav)`
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
   clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
 `;
+
 const NavSection = styled.div`
   display: flex;
   gap: 3rem;
   &:first-child { justify-content: flex-start; }
   &:last-child { justify-content: flex-end; }
 `;
+
 const StyledNavLink = styled(NavLink)`
   font-size: 1.6rem;
   font-weight: 600;
@@ -83,6 +107,7 @@ const StyledNavLink = styled(NavLink)`
   &:hover { color: var(--text-primary); transform: translateY(-2px); }
   &.active { color: var(--accent); }
 `;
+
 const LogoContainer = styled(NavLink)`
   padding: 0 4rem;
   height: 50px;
@@ -91,5 +116,6 @@ const LogoContainer = styled(NavLink)`
   img {
     height: 100%;
     width: auto;
+    display: block;
   }
 `;
