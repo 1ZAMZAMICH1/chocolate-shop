@@ -17,30 +17,28 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <NavbarContainer
-        initial={{ y: -200, rotate: -5, opacity: 0 }}
-        animate={{ y: 0, rotate: 0, opacity: 1 }}
+        initial={{ y: -200, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 50, damping: 15, duration: 1.5, delay: 0.2 }}
-        whileHover={{ scale: 1.02 }}
       >
-        <NavSection>
-          {navItemsLeft.map(item => (
-            <StyledNavLink key={item.path} to={item.path}>
-              {item.label}
-            </StyledNavLink>
-          ))}
-        </NavSection>
-
         <LogoContainer to="/">
           <img src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png" alt="ChocoPrima Logo" />
         </LogoContainer>
+        
+        <DesktopNav>
+            <NavSection>
+              {navItemsLeft.map(item => ( <StyledNavLink key={item.path} to={item.path}>{item.label}</StyledNavLink> ))}
+            </NavSection>
+            <NavSection>
+              {navItemsRight.map(item => ( <StyledNavLink key={item.path} to={item.path}>{item.label}</StyledNavLink> ))}
+            </NavSection>
+        </DesktopNav>
 
-        <NavSection>
-          {navItemsRight.map(item => (
-            <StyledNavLink key={item.path} to={item.path}>
-              {item.label}
-            </StyledNavLink>
-          ))}
-        </NavSection>
+        <MobileNav>
+            {navItemsLeft.map(item => ( <StyledNavLink key={item.path} to={item.path}>{item.label}</StyledNavLink> ))}
+            {navItemsRight.map(item => ( <StyledNavLink key={item.path} to={item.path}>{item.label}</StyledNavLink> ))}
+        </MobileNav>
+
       </NavbarContainer>
     </HeaderWrapper>
   );
@@ -48,54 +46,78 @@ const Header = () => {
 
 export default Header;
 
-// --- СТИЛИ С АККУРАТНОЙ АДАПТАЦИЕЙ ---
+// --- СТИЛИ, КОТОРЫЕ РАБОТАЮТ ---
 
 const HeaderWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 2rem;
+  padding: 1.5rem;
   z-index: 1000;
   display: flex;
   justify-content: center;
-
-  @media (max-width: 768px) {
-    padding: 1rem;
-  }
 `;
 
 const NavbarContainer = styled(motion.nav)`
-  width: 95%;
+  width: 100%;
   max-width: 1300px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 4rem;
+  padding: 1rem 3rem;
   
   background: linear-gradient(145deg, #3a221d, #211517);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
-  clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
 
-  @media (max-width: 900px) {
-    padding: 1rem 2rem;
+  /* На мобилке перестраиваем все в колонку */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
   }
-  
-  @media (max-width: 500px) {
-    /* На самых маленьких экранах отключаем сложную форму, чтобы не было артефактов */
-    clip-path: none;
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
+`;
+
+const LogoContainer = styled(NavLink)`
+  height: 40px;
+  display: flex;
+  align-items: center;
+
+  img { height: 100%; width: auto; }
+
+  @media (max-width: 768px) {
+    height: 35px;
+  }
+`;
+
+// Навигация для десктопа
+const DesktopNav = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  padding: 0 3rem;
+
+  @media (max-width: 768px) {
+    display: none; /* Скрываем на мобилке */
   }
 `;
 
 const NavSection = styled.div`
   display: flex;
   gap: 3rem;
-  &:first-child { justify-content: flex-start; }
-  &:last-child { justify-content: flex-end; }
-  
-  @media (max-width: 900px) { gap: 1.5rem; }
+`;
+
+// Навигация для мобилки
+const MobileNav = styled.div`
+  display: none; /* Скрываем на десктопе */
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-wrap: wrap; /* Позволяем переноситься на новую строку */
+    justify-content: center;
+    gap: 1.5rem 2rem;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -103,25 +125,14 @@ const StyledNavLink = styled(NavLink)`
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
-  position: relative;
   white-space: nowrap;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: color 0.3s ease;
   
-  &:hover { color: var(--text-primary); transform: translateY(-2px); }
-  &.active { color: var(--accent); }
+  &:hover, &.active {
+    color: var(--accent);
+  }
 
-  @media (max-width: 900px) { font-size: 1.2rem; }
-  @media (max-width: 500px) { font-size: 1rem; }
-`;
-
-const LogoContainer = styled(NavLink)`
-  padding: 0 4rem;
-  height: 50px;
-  display: flex;
-  align-items: center;
-
-  img { height: 100%; width: auto; }
-
-  @media (max-width: 900px) { padding: 0 2rem; height: 40px; }
-  @media (max-width: 500px) { padding: 0 1rem; height: 30px; }
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+  }
 `;
