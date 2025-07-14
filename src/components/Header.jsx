@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 const navItemsLeft = [  { path: '/', label: 'Главная' },
   { path: '/shop', label: 'Магазин' },
 ];
+
 const navItemsRight = [  { path: '/contacts', label: 'Контакты' },
   { path: '/reviews', label: 'Отзывы' },
 ];
@@ -52,12 +53,11 @@ const HeaderWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  z-index: 10000;
+  z-index: 1000;
+  padding: 2rem;
   display: flex;
   justify-content: center;
-  pointer-events: auto;
   background: transparent;
-  padding: 2rem;
 
   @media (max-width: 600px) {
     padding: 0.5rem 0 0.5rem 0.1rem;
@@ -70,14 +70,23 @@ const ScaleContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 600px) {
-    justify-content: flex-start;
-    align-items: flex-start;
-    transform: scale(0.62);
-    transform-origin: top left;
-    width: 1300px;
+  /* НА ПК — вообще никакой трансформации, ширины и origin! */
+  @media (min-width: 601px) {
+    transform: none !important;
+    width: 100%;
     min-width: unset;
     max-width: unset;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* На мобилке включаем уменьшение и origin */
+  @media (max-width: 600px) {
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    transform: scale(0.62);
+    transform-origin: top left;
+    width: auto;
   }
 `;
 
