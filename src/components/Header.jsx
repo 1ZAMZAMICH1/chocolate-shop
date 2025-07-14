@@ -51,18 +51,18 @@ const Header = () => {
 
 export default Header;
 
-// ================= СТИЛИ =================
+// ======= СТИЛИ =======
 
 const HeaderWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1.5rem 1rem;
+  padding: 2rem;
   z-index: 1000;
   display: flex;
   justify-content: center;
-  background: transparent;
+  overflow-x: hidden;
 `;
 
 const NavbarContainer = styled(motion.nav)`
@@ -71,22 +71,31 @@ const NavbarContainer = styled(motion.nav)`
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1.5rem 4rem;
   background: linear-gradient(145deg, #3a221d, #211517);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
     inset 0 2px 3px rgba(255, 255, 255, 0.1);
   clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
 
   @media (max-width: 900px) {
-    padding: 0.8rem 1.2rem;
     clip-path: none;
     border-radius: 20px;
+    padding: 1.5rem 2rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.2rem;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
   }
 `;
 
 const NavSection = styled.div`
   display: flex;
-  gap: 1.5rem;
+  gap: 3rem;
   align-items: center;
 
   &:first-child {
@@ -98,12 +107,12 @@ const NavSection = styled.div`
   }
 
   @media (max-width: 480px) {
-    gap: 1rem;
+    gap: 2rem;
   }
 `;
 
 const StyledNavLink = styled(NavLink)`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -121,16 +130,15 @@ const StyledNavLink = styled(NavLink)`
   }
 
   @media (max-width: 480px) {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
 `;
 
 const LogoContainer = styled(NavLink)`
-  padding: 0 2rem;
-  height: 40px;
+  padding: 0 4rem;
+  height: 50px;
   display: flex;
   align-items: center;
-  justify-content: center;
 
   img {
     height: 100%;
@@ -138,11 +146,15 @@ const LogoContainer = styled(NavLink)`
   }
 
   @media (max-width: 768px) {
-    padding: 0 1rem;
-    height: 35px;
+    padding: 0 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 1.5rem;
+    height: 40px;
 
     img {
-      max-height: 35px;
+      max-height: 40px;
     }
   }
 `;
