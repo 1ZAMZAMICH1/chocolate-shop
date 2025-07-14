@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 const navItemsLeft = [  { path: '/', label: 'Главная' },
   { path: '/shop', label: 'Магазин' },
 ];
-
 const navItemsRight = [  { path: '/contacts', label: 'Контакты' },
   { path: '/reviews', label: 'Отзывы' },
 ];
@@ -43,38 +42,40 @@ const Header = () => {
     </HeaderWrapper>
   );
 };
-
 export default Header;
 
-// ----------- СТИЛИ -----------
+// СТИЛИ
 
 const HeaderWrapper = styled.div`
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
   z-index: 1000;
+  padding: 2rem;
   display: flex;
   justify-content: center;
   background: transparent;
-  padding: 2rem;
 
   @media (max-width: 600px) {
-    padding: 0.5rem; 
+    padding: 0.5rem 0 0.5rem 0.1rem; /* левый паддинг минимальный */
+    justify-content: flex-start;
   }
 `;
 
-// Вот тут заворачиваем масштаб
 const ScaleContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 
   @media (max-width: 600px) {
-    transform: scale(0.73); /* тут ловко подбирай коэффициент для идеального результата */
-    transform-origin: top center;
-    width: 100vw;
-    /* Чтобы не было горизонтального скрола: */
-    overflow: visible;
+    justify-content: flex-start;
+    align-items: flex-start;
+    transform: scale(0.67); /* уменьшили еще сильнее */
+    transform-origin: top left;
+    width: auto; /* ширина по контенту */
+    min-width: unset;
+    max-width: unset;
   }
 `;
 
@@ -116,6 +117,5 @@ const LogoContainer = styled(NavLink)`
   img {
     height: 100%;
     width: auto;
-    display: block;
   }
 `;
