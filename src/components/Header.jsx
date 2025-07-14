@@ -60,28 +60,33 @@ const HeaderWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  padding: 2rem;
   z-index: 1000;
-  display: flex;
-  justify-content: center;
-  overflow-x: hidden; // убираем горизонтальную прокрутку
+  height: auto;
+  overflow: visible;
 `;
 
 const ScaleWrapper = styled.div`
-  width: 1300px;
+  position: relative;
+  width: 100vw;
+  height: auto;
 
-  @media (max-width: 1300px) {
-    transform: scale(0.8);
-    transform-origin: top center; // центрируем масштабирование
-  }
+  & > div {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scale(1);
 
-  @media (max-width: 768px) {
-    transform: scale(0.7);
-    transform-origin: top center;
-  }
+    @media (max-width: 1300px) {
+      transform: translateX(-50%) scale(0.85);
+    }
 
-  @media (max-width: 480px) {
-    transform: scale(0.6);
+    @media (max-width: 768px) {
+      transform: translateX(-50%) scale(0.72);
+    }
+
+    @media (max-width: 480px) {
+      transform: translateX(-50%) scale(0.6);
+    }
+
     transform-origin: top center;
   }
 `;
@@ -93,8 +98,7 @@ const NavbarContainer = styled(motion.nav)`
   align-items: center;
   padding: 1.5rem 4rem;
   background: linear-gradient(145deg, #3a221d, #211517);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
-    inset 0 2px 3px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
 
   clip-path: path(
     'M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z'
