@@ -58,10 +58,11 @@ const HeaderWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  padding: 2rem;
+  padding: 2rem 1rem;
   z-index: 1000;
   display: flex;
   justify-content: center;
+  background: transparent;
   overflow-x: hidden;
 `;
 
@@ -71,22 +72,27 @@ const NavbarContainer = styled(motion.nav)`
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 1.5rem 4rem;
-  background: linear-gradient(145deg, #3a221d, #211517);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
-    inset 0 2px 3px rgba(255, 255, 255, 0.1);
 
-  /* 👇 ОСТАВЛЯЕМ clip-path НА ВСЕХ ЭКРАНАХ */
-  clip-path: path(
-    'M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z'
-  );
+  /* 👇 немного опускаем весь контент вниз */
+  padding: 1.7rem 4rem 1.7rem 4rem;
+
+  background: linear-gradient(145deg, #3a221d, #211517);
+
+  /* 👇 оригинальная тень без обрезки */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
+
+  /* 👇 сохраняем волну везде */
+  clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
+
+  /* Убираем любые скругления — не нужно */
+  border-radius: 0;
 
   @media (max-width: 768px) {
-    padding: 1rem 2rem;
+    padding: 1.6rem 2rem;
   }
 
   @media (max-width: 480px) {
-    padding: 0.8rem 1.2rem;
+    padding: 1.5rem 1.2rem;
   }
 `;
 
@@ -127,7 +133,7 @@ const StyledNavLink = styled(NavLink)`
   }
 
   @media (max-width: 480px) {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
 `;
 
@@ -136,18 +142,24 @@ const LogoContainer = styled(NavLink)`
   height: 50px;
   display: flex;
   align-items: center;
+  justify-content: center;
 
   img {
     height: 100%;
     width: auto;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 2rem;
   }
 
   @media (max-width: 480px) {
-    padding: 0 2rem;
-    height: 40px;
+    padding: 0 1.5rem;
+    height: 45px;
 
     img {
-      max-height: 40px;
+      max-height: 45px;
     }
   }
 `;
