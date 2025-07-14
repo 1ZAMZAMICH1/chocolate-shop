@@ -12,7 +12,6 @@ const FeaturedProducts = ({ onDetailClick, onOrderClick }) => {
     const fetchProducts = async () => {
       try {
         const data = await getData();
-        // Берем 4 товара для главной, чтобы было симметрично
         setProducts((data.products || []).slice(0, 4));
       } catch (err) {
         console.error("Failed to load featured products:", err);
@@ -33,8 +32,8 @@ const FeaturedProducts = ({ onDetailClick, onOrderClick }) => {
           <ProductCard
             key={product.id}
             product={product}
-            onDetailClick={onDetailClick} // ПЕРЕДАЕМ КЛИК ДАЛЬШЕ
-            onOrderClick={onOrderClick}   // ПЕРЕДАЕМ КЛИК ДАЛЬШЕ
+            onDetailClick={onDetailClick}
+            onOrderClick={onOrderClick}
           />
         ))}
       </ProductsGrid>
@@ -52,12 +51,28 @@ const SectionContainer = styled.section`
   flex-direction: column;
   align-items: center;
   gap: 5rem;
+
+  @media (max-width: 900px) {
+    padding: 4rem 1rem;
+    gap: 3rem;
+  }
+  @media (max-width: 600px) {
+    padding: 2.5rem 0.5rem;
+    gap: 2rem;
+  }
 `;
 
 const SectionTitle = styled.h2`
   font-family: 'Cormorant Garamond', serif;
   font-size: 4.2rem;
   text-align: center;
+
+  @media (max-width: 900px) {
+    font-size: 3rem;
+  }
+  @media (max-width: 600px) {
+    font-size: 2rem;
+  }
 `;
 
 const ProductsGrid = styled.div`
@@ -65,4 +80,14 @@ const ProductsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 3rem;
   width: 100%;
+
+  @media (max-width: 900px) {
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
 `;
