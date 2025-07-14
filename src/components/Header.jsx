@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-const navItemsLeft = [  { path: '/', label: 'Главная' },
+const navItemsLeft = [
+  { path: '/', label: 'Главная' },
   { path: '/shop', label: 'Магазин' },
 ];
 
-const navItemsRight = [  { path: '/contacts', label: 'Контакты' },
+const navItemsRight = [
+  { path: '/contacts', label: 'Контакты' },
   { path: '/reviews', label: 'Отзывы' },
 ];
 
@@ -57,8 +59,11 @@ const HeaderWrapper = styled.div`
   justify-content: center;
   background: transparent;
 
+  @media (max-width: 900px) {
+    padding: 1rem;
+  }
   @media (max-width: 600px) {
-    padding: 0.5rem 0.2rem;
+    padding: 0.5rem;
   }
 `;
 
@@ -78,25 +83,23 @@ const NavbarContainer = styled(motion.nav)`
     clip-path: none;
     border-radius: 20px;
   }
-
   @media (max-width: 600px) {
     width: 100%;
     min-width: 0;
-    padding: 0.6rem 0.4rem;
-    grid-template-columns: 1fr auto 1fr;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.23);
+    padding: 0.6rem;
+    transform: scale(0.65);
+    margin: 0 auto;
   }
 `;
 
 const NavSection = styled.div`
   display: flex;
   gap: 3rem;
-  align-items: center;
   &:first-child { justify-content: flex-start; }
   &:last-child { justify-content: flex-end; }
 
   @media (max-width: 600px) {
-    gap: 1.1rem;
+    gap: inherit;
   }
 `;
 
@@ -112,9 +115,11 @@ const StyledNavLink = styled(NavLink)`
   &:hover { color: var(--text-primary); transform: translateY(-2px); }
   &.active { color: var(--accent); }
 
+  @media (max-width: 900px) {
+    font-size: 1.3rem;
+  }
   @media (max-width: 600px) {
-    font-size: 1.05rem;
-    padding: 0 0.1rem;
+    font-size: inherit;
   }
 `;
 
@@ -131,10 +136,10 @@ const LogoContainer = styled(NavLink)`
   }
 
   @media (max-width: 600px) {
-    padding: 0 1.2rem;
-    height: 32px;
+    padding: inherit;
+    height: inherit;
     img {
-      height: 100%;
+      height: inherit;
     }
   }
 `;
