@@ -66,7 +66,7 @@ const FooterContainer = styled.footer`
     padding: 3rem 2% 1.5rem;
   }
   @media (max-width: 600px) {
-    padding: 2rem 0.8rem 1rem;
+    padding: 2.2rem 0.8rem 1.2rem;
   }
 `;
 
@@ -75,6 +75,7 @@ const FooterContent = styled.div`
   grid-template-columns: 2fr 1fr 1fr;
   gap: 3rem;
   margin-bottom: 3rem;
+  align-items: flex-start;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr 1fr;
@@ -82,8 +83,8 @@ const FooterContent = styled.div`
   }
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
-    gap: 1.8rem;
-    margin-bottom: 2rem;
+    gap: 1.5rem;
+    margin-bottom: 1.6rem;
     text-align: center;
     justify-items: center;
   }
@@ -102,8 +103,8 @@ const FooterColumn = styled.div`
     margin-bottom: 0.7rem;
   }
   @media (max-width: 600px) {
-    h4 { font-size: 1.36rem; margin-bottom: 1rem; }
-    p { font-size: 1.02rem; }
+    h4 { font-size: 1.22rem; margin-bottom: 0.8rem; }
+    p { font-size: 0.97rem; }
   }
 `;
 
@@ -116,7 +117,7 @@ const LogoLink = styled(NavLink)`
     height: auto;
   }
   @media (max-width: 600px) {
-    width: 116px;
+    width: 100px;
     margin-bottom: 1rem;
   }
 `;
@@ -130,7 +131,7 @@ const PhoneNumber = styled.a`
     color: var(--accent);
   }
   @media (max-width: 600px) {
-    font-size: 1.04rem;
+    font-size: 0.99rem;
   }
 `;
 
@@ -144,19 +145,19 @@ const FooterLink = styled(NavLink)`
     color: var(--accent);
   }
   @media (max-width: 600px) {
-    font-size: 0.99rem;
-    margin-bottom: 0.6rem;
+    font-size: 0.98rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
 const SocialLinks = styled.div`
   display: flex;
   gap: 1.5rem;
-  margin-top: 1rem;
+  margin-top: 1.1rem;
 
   a {
     color: var(--text-secondary);
-    font-size: 1.8rem;
+    font-size: 1.9rem;
     transition: color 0.3s, transform 0.3s;
     &:hover {
       color: var(--accent);
@@ -167,7 +168,7 @@ const SocialLinks = styled.div`
   @media (max-width: 600px) {
     justify-content: center;
     gap: 1rem;
-    a { font-size: 1.44rem; }
+    a { font-size: 1.4rem; }
   }
 `;
 
@@ -183,17 +184,17 @@ const FooterBottom = styled.div`
 
   @media (max-width: 900px) {
     flex-direction: column;
-    gap: 0.6rem;
     align-items: flex-start;
-    font-size: 1.12rem;
+    gap: 0.6rem;
+    font-size: 1.13rem;
   }
   @media (max-width: 600px) {
     flex-direction: column;
-    gap: 0.3rem;
     align-items: center;
-    text-align: center;
-    font-size: 0.98rem;
+    gap: 0.4rem;
+    font-size: 0.99rem;
     padding-top: 1.2rem;
+    text-align: center;
   }
 `;
 
@@ -226,3 +227,4 @@ const AuthorAttribution = styled.a`
     white-space: nowrap;
   }
 `;
+
