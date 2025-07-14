@@ -46,7 +46,7 @@ const Header = () => {
 
 export default Header;
 
-// ------- СТИЛИ -------
+// ----------- СТИЛИ -----------
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -60,7 +60,7 @@ const HeaderWrapper = styled.div`
   background: transparent;
 
   @media (max-width: 600px) {
-    padding: 0.5rem 0 0.5rem 0.1rem; /* прижать влево */
+    padding: 0.5rem 0 0.5rem 0.1rem;
     justify-content: flex-start;
   }
 `;
@@ -70,10 +70,20 @@ const ScaleContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  /* Только на телефоне включаем уменьшение и origin */
+  /* НА ПК — вообще никакой трансформации, ширины и origin! */
+  @media (min-width: 601px) {
+    transform: none !important;
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* На мобилке включаем уменьшение и origin */
   @media (max-width: 600px) {
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
     transform: scale(0.62);
     transform-origin: top left;
     width: auto;
