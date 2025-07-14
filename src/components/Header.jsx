@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 const navItemsLeft = [  { path: '/', label: 'Главная' },
   { path: '/shop', label: 'Магазин' },
 ];
+
 const navItemsRight = [  { path: '/contacts', label: 'Контакты' },
   { path: '/reviews', label: 'Отзывы' },
 ];
@@ -42,9 +43,10 @@ const Header = () => {
     </HeaderWrapper>
   );
 };
+
 export default Header;
 
-// СТИЛИ
+// ----------- СТИЛИ -----------
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -58,7 +60,7 @@ const HeaderWrapper = styled.div`
   background: transparent;
 
   @media (max-width: 600px) {
-    padding: 0.5rem 0 0.5rem 0.1rem; /* левый паддинг минимальный */
+    padding: 0.5rem 0 0.5rem 0.1rem; // минимум слева
     justify-content: flex-start;
   }
 `;
@@ -71,11 +73,9 @@ const ScaleContainer = styled.div`
   @media (max-width: 600px) {
     justify-content: flex-start;
     align-items: flex-start;
-    transform: scale(0.67); /* уменьшили еще сильнее */
+    transform: scale(0.62);
     transform-origin: top left;
-    width: auto; /* ширина по контенту */
-    min-width: unset;
-    max-width: unset;
+    width: auto;
   }
 `;
 
