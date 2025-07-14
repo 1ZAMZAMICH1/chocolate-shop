@@ -51,7 +51,7 @@ const Header = () => {
 
 export default Header;
 
-// ======= СТИЛИ =======
+// ========== СТИЛИ ==========
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -75,21 +75,18 @@ const NavbarContainer = styled(motion.nav)`
   background: linear-gradient(145deg, #3a221d, #211517);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
     inset 0 2px 3px rgba(255, 255, 255, 0.1);
-  clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
 
-  @media (max-width: 900px) {
-    clip-path: none;
-    border-radius: 20px;
-    padding: 1.5rem 2rem;
-  }
+  /* 👇 ОСТАВЛЯЕМ clip-path НА ВСЕХ ЭКРАНАХ */
+  clip-path: path(
+    'M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z'
+  );
 
   @media (max-width: 768px) {
-    padding: 1.2rem;
-    grid-template-columns: 1fr auto 1fr;
+    padding: 1rem 2rem;
   }
 
   @media (max-width: 480px) {
-    padding: 1rem;
+    padding: 0.8rem 1.2rem;
   }
 `;
 
@@ -145,12 +142,8 @@ const LogoContainer = styled(NavLink)`
     width: auto;
   }
 
-  @media (max-width: 768px) {
-    padding: 0 2rem;
-  }
-
   @media (max-width: 480px) {
-    padding: 0 1.5rem;
+    padding: 0 2rem;
     height: 40px;
 
     img {
