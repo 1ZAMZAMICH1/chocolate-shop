@@ -53,7 +53,7 @@ const Header = () => {
 
 export default Header;
 
-// === СТИЛИ ===
+// ========== СТИЛИ ==========
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -64,24 +64,25 @@ const HeaderWrapper = styled.div`
   z-index: 1000;
   display: flex;
   justify-content: center;
-  overflow-x: auto;
+  overflow-x: hidden; // убираем горизонтальную прокрутку
 `;
 
-// 👇 Масштабируем контейнер только на телефонах
 const ScaleWrapper = styled.div`
   width: 1300px;
 
   @media (max-width: 1300px) {
-    transform: scale(${props => props.scale || '0.85'});
-    transform-origin: top left;
+    transform: scale(0.8);
+    transform-origin: top center; // центрируем масштабирование
   }
 
   @media (max-width: 768px) {
-    transform: scale(0.75);
+    transform: scale(0.7);
+    transform-origin: top center;
   }
 
   @media (max-width: 480px) {
-    transform: scale(0.65);
+    transform: scale(0.6);
+    transform-origin: top center;
   }
 `;
 
@@ -92,8 +93,12 @@ const NavbarContainer = styled(motion.nav)`
   align-items: center;
   padding: 1.5rem 4rem;
   background: linear-gradient(145deg, #3a221d, #211517);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
-  clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
+    inset 0 2px 3px rgba(255, 255, 255, 0.1);
+
+  clip-path: path(
+    'M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z'
+  );
 `;
 
 const NavSection = styled.div`
@@ -138,5 +143,6 @@ const LogoContainer = styled(NavLink)`
   img {
     height: 100%;
     width: auto;
+    display: block;
   }
 `;
