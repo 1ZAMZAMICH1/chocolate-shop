@@ -46,7 +46,7 @@ const Header = () => {
 
 export default Header;
 
-// ----------- СТИЛИ -----------
+// ------- СТИЛИ -------
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -60,7 +60,7 @@ const HeaderWrapper = styled.div`
   background: transparent;
 
   @media (max-width: 600px) {
-    padding: 0.5rem 0 0.5rem 0.1rem; // минимум слева
+    padding: 0.5rem 0 0.5rem 0.1rem; /* прижать влево */
     justify-content: flex-start;
   }
 `;
@@ -70,6 +70,7 @@ const ScaleContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  /* Только на телефоне включаем уменьшение и origin */
   @media (max-width: 600px) {
     justify-content: flex-start;
     align-items: flex-start;
