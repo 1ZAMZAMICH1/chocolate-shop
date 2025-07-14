@@ -16,92 +16,84 @@ const navItemsRight = [
 const Header = () => {
   return (
     <HeaderWrapper>
-      <ClipPathDefs />
-      <NavbarContainer
-        initial={{ y: -200, rotate: -5, opacity: 0 }}
-        animate={{ y: 0, rotate: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 50, damping: 15, duration: 1.5, delay: 0.2 }}
-        whileHover={{ scale: 1.02 }}
-      >
-        <NavSection>
-          {navItemsLeft.map(item => (
-            <StyledNavLink key={item.path} to={item.path}>
-              {item.label}
-            </StyledNavLink>
-          ))}
-        </NavSection>
+      <ScaleWrapper>
+        <NavbarContainer
+          initial={{ y: -200, rotate: -5, opacity: 0 }}
+          animate={{ y: 0, rotate: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 50, damping: 15, duration: 1.5, delay: 0.2 }}
+          whileHover={{ scale: 1.02 }}
+        >
+          <NavSection>
+            {navItemsLeft.map(item => (
+              <StyledNavLink key={item.path} to={item.path}>
+                {item.label}
+              </StyledNavLink>
+            ))}
+          </NavSection>
 
-        <LogoContainer to="/">
-          <img
-            src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png"
-            alt="ChocoPrima Logo"
-          />
-        </LogoContainer>
+          <LogoContainer to="/">
+            <img
+              src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png"
+              alt="ChocoPrima Logo"
+            />
+          </LogoContainer>
 
-        <NavSection>
-          {navItemsRight.map(item => (
-            <StyledNavLink key={item.path} to={item.path}>
-              {item.label}
-            </StyledNavLink>
-          ))}
-        </NavSection>
-      </NavbarContainer>
+          <NavSection>
+            {navItemsRight.map(item => (
+              <StyledNavLink key={item.path} to={item.path}>
+                {item.label}
+              </StyledNavLink>
+            ))}
+          </NavSection>
+        </NavbarContainer>
+      </ScaleWrapper>
     </HeaderWrapper>
   );
 };
 
 export default Header;
 
-// ========== СТИЛИ ==========
+// === СТИЛИ ===
 
 const HeaderWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  padding: 2rem 1rem;
+  width: 100vw;
+  padding: 2rem;
   z-index: 1000;
   display: flex;
   justify-content: center;
-  overflow-x: hidden;
+  overflow-x: auto;
 `;
 
-// 👇 создаём SVG clipPath, который адаптивно растягивается
-const ClipPathDefs = () => (
-  <svg width="0" height="0">
-    <defs>
-      <clipPath id="header-clip" clipPathUnits="objectBoundingBox">
-        <path
-          d="M0,0.3 Q0.038,0 0.077,0.15 L0.69,0.15 Q0.731,0.187 0.769,0 L0.923,0.112 Q0.962,0.15 1,0.037 L1,0.615 Q0.962,0.769 0.923,0.654 L0.769,0.692 Q0.731,0.654 0.69,0.769 L0.077,0.692 Q0.038,0.731 0,0.538 Z"
-          transform="scale(1, 1)"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-);
+// 👇 Масштабируем контейнер только на телефонах
+const ScaleWrapper = styled.div`
+  width: 1300px;
 
-const NavbarContainer = styled(motion.nav)`
-  width: 100%;
-  max-width: 1300px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-
-  padding: 1.7rem 4rem;
-
-  background: linear-gradient(145deg, #3a221d, #211517);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
-
-  /* ✅ теперь clip-path растягивается с шириной */
-  clip-path: url(#header-clip);
+  @media (max-width: 1300px) {
+    transform: scale(${props => props.scale || '0.85'});
+    transform-origin: top left;
+  }
 
   @media (max-width: 768px) {
-    padding: 1.6rem 2rem;
+    transform: scale(0.75);
   }
 
   @media (max-width: 480px) {
-    padding: 1.5rem 1.2rem;
+    transform: scale(0.65);
   }
+`;
+
+const NavbarContainer = styled(motion.nav)`
+  width: 1300px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 1.5rem 4rem;
+  background: linear-gradient(145deg, #3a221d, #211517);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
+  clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
 `;
 
 const NavSection = styled.div`
@@ -115,10 +107,6 @@ const NavSection = styled.div`
 
   &:last-child {
     justify-content: flex-end;
-  }
-
-  @media (max-width: 480px) {
-    gap: 2rem;
   }
 `;
 
@@ -139,10 +127,6 @@ const StyledNavLink = styled(NavLink)`
   &.active {
     color: var(--accent);
   }
-
-  @media (max-width: 480px) {
-    font-size: 1.5rem;
-  }
 `;
 
 const LogoContainer = styled(NavLink)`
@@ -150,24 +134,9 @@ const LogoContainer = styled(NavLink)`
   height: 50px;
   display: flex;
   align-items: center;
-  justify-content: center;
 
   img {
     height: 100%;
     width: auto;
-    display: block;
-  }
-
-  @media (max-width: 768px) {
-    padding: 0 2rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0 1.5rem;
-    height: 45px;
-
-    img {
-      max-height: 45px;
-    }
   }
 `;
