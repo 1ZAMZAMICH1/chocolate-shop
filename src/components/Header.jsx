@@ -31,7 +31,10 @@ const Header = () => {
         </NavSection>
 
         <LogoContainer to="/">
-          <img src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png" alt="ChocoPrima Logo" />
+          <img
+            src="https://res.cloudinary.com/dyuywnfy3/image/upload/v1752414922/2321_xmt9fg.png"
+            alt="ChocoPrima Logo"
+          />
         </LogoContainer>
 
         <NavSection>
@@ -48,7 +51,7 @@ const Header = () => {
 
 export default Header;
 
-// --- ТВОИ СТИЛИ С АККУРАТНОЙ АДАПТАЦИЕЙ ---
+// ================== СТИЛИ ==================
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -72,30 +75,39 @@ const NavbarContainer = styled(motion.nav)`
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 1.5rem 4rem;
-  
   background: linear-gradient(145deg, #3a221d, #211517);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.1);
   clip-path: path('M0,30 Q50,0 100,20 L900,20 Q950,25 1000,0 L1200,15 Q1250,20 1300,5 L1300,80 Q1250,100 1200,85 L1000,90 Q950,85 900,100 L100,90 Q50,95 0,70 Z');
 
   @media (max-width: 900px) {
     padding: 1rem 2rem;
-  }
-  
-  @media (max-width: 500px) {
     clip-path: none;
     border-radius: 20px;
-    padding: 0.5rem 1rem;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 `;
 
 const NavSection = styled.div`
   display: flex;
   gap: 3rem;
-  &:first-child { justify-content: flex-start; }
-  &:last-child { justify-content: flex-end; }
-  
-  @media (max-width: 900px) {
+
+  &:first-child {
+    justify-content: flex-start;
+  }
+
+  &:last-child {
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 768px) {
     gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 `;
 
@@ -104,14 +116,21 @@ const StyledNavLink = styled(NavLink)`
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
-  white-space: nowrap;
+  position: relative;
   transition: color 0.3s ease, transform 0.3s ease;
-  
-  &:hover { color: var(--text-primary); transform: translateY(-2px); }
-  &.active { color: var(--accent); }
 
-  @media (max-width: 900px) { font-size: 1.2rem; }
-  @media (max-width: 500px) { font-size: 1rem; }
+  &:hover {
+    color: var(--text-primary);
+    transform: translateY(-2px);
+  }
+
+  &.active {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+  }
 `;
 
 const LogoContainer = styled(NavLink)`
@@ -120,8 +139,12 @@ const LogoContainer = styled(NavLink)`
   display: flex;
   align-items: center;
 
-  img { height: 100%; width: auto; }
+  img {
+    height: 100%;
+    width: auto;
+  }
 
-  @media (max-width: 900px) { padding: 0 2rem; height: 40px; }
-  @media (max-width: 500px) { padding: 0 1rem; height: 30px; }
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
