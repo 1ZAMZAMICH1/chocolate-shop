@@ -1,3 +1,5 @@
+// Полностью замени содержимое этого файла
+
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,14 +18,14 @@ const slides = [
     title: "Чистый вкус",
     subtitle: "Наша философия — это честность ингредиентов и смелость вкусовых сочетаний.",
     align: 'right',
-    scale: 1,
+    scale: 0.75,
   },
   {
     image: "https://res.cloudinary.com/dyuywnfy3/image/upload/v1752404634/511323_rhwnvs.png",
     title: "Ручная работа",
     subtitle: "Каждая плитка и каждая конфета созданы вручную с любовью и вниманием к деталям.",
     align: 'left',
-    scale: 1,
+    scale: 0.75,
   },
 ];
 
@@ -43,40 +45,23 @@ const HeroSection = () => {
   return (
     <HeroContainer>
       <AnimatePresence mode="wait">
-        <ContentWrapper key={index} $isTextLeft={isTextLeft}>
+        <ContentWrapper key={index}>
           <TextContent $isTextLeft={isTextLeft}>
-            <motion.h1
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            >
-              {currentSlide.title}
-            </motion.h1>
-            <motion.p
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            >
-              {currentSlide.subtitle}
-            </motion.p>
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-            >
+            <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}>
+              <h1>{currentSlide.title}</h1>
+              <p>{currentSlide.subtitle}</p>
               <ShopLink to="/shop">Вся коллекция</ShopLink>
             </motion.div>
           </TextContent>
-
-          <ImageContainer>
-            <motion.div
-              key={currentSlide.image}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: currentSlide.scale }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <img src={currentSlide.image} alt={currentSlide.title} />
-            </motion.div>
+          <ImageContainer $isTextLeft={isTextLeft}>
+             <motion.div
+                key={currentSlide.image}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: currentSlide.scale }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <img src={currentSlide.image} alt={currentSlide.title} />
+              </motion.div>
           </ImageContainer>
         </ContentWrapper>
       </AnimatePresence>
@@ -84,90 +69,44 @@ const HeroSection = () => {
   );
 };
 
-const HeroContainer = styled.section`
-  height: 100vh;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(33, 21, 23, 0.85);
-  backdrop-filter: blur(8px);
-`;
-
-const ContentWrapper = styled(motion.div)`
-  display: flex;
-  flex-direction: ${({ $isTextLeft }) => ($isTextLeft ? 'row' : 'row-reverse')};
-  align-items: center;
-  justify-content: space-between;
-  width: 90%;
-  max-width: 1600px;
-  height: 100%;
-  padding: 0 3rem;
-  gap: 4rem;
-`;
-
-const TextContent = styled.div`
-  flex: 1;
-  text-align: ${({ $isTextLeft }) => ($isTextLeft ? 'left' : 'right')};
-
-  h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(4.5rem, 7vw, 7.5rem);
-    color: #F5EAE0;
-    line-height: 1.05;
-    text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7);
-  }
-
-  p {
-    font-size: 1.8rem;
-    color: var(--text-secondary);
-    margin: 3rem 0 4rem;
-    max-width: 45ch;
-    line-height: 1.7;
-    margin-left: ${({ $isTextLeft }) => ($isTextLeft ? '0' : 'auto')};
-    margin-right: ${({ $isTextLeft }) => ($isTextLeft ? 'auto' : '0')};
-  }
-`;
-
-const ImageContainer = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & > div {
-    max-width: 100%;
-    max-height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  img {
-    max-width: 100%;
-    max-height: 90vh;
-    object-fit: contain;
-    filter: drop-shadow(10px 15px 25px rgba(0,0,0,0.4));
-  }
-`;
-
-const ShopLink = styled(Link)`
-  display: inline-block;
-  padding: 1.5rem 3.5rem;
-  border: 1px solid var(--accent);
-  color: var(--text-primary);
-  font-size: 1.6rem;
-  font-weight: 600;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: var(--accent);
-    color: var(--bg-dark);
-    box-shadow: 0 0 20px rgba(229, 137, 105, 0.4);
-  }
-`;
-
 export default HeroSection;
+
+// --- СТИЛИ С АККУРАТНОЙ АДАПТАЦИЕЙ ---
+const HeroContainer = styled.section` height: 100vh; width: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: rgba(33, 21, 23, 0.85); backdrop-filter: blur(8px); `;
+const ContentWrapper = styled(motion.div)`
+  width: 90%; max-width: 1600px; height: 100%; display: flex; align-items: center; gap: 3rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 5rem 0;
+  }
+`;
+const TextContent = styled.div`
+  flex: 1 1 45%; order: ${props => (props.$isTextLeft ? 1 : 2)}; text-align: ${props => (props.$isTextLeft ? 'left' : 'right')};
+  @media (max-width: 768px) {
+    order: 2;
+    text-align: center;
+    flex-basis: auto;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 7vw, 7.5rem); color: #F5EAE0; line-height: 1.05; text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7); }
+  p { font-size: clamp(1.6rem, 2vw, 1.8rem); color: var(--text-secondary); margin: 2rem 0 3rem; max-width: 45ch; line-height: 1.7; 
+    ${props => !props.$isTextLeft && `margin-left: auto;`}
+    @media (max-width: 768px) {
+      margin: 1.5rem auto 2.5rem;
+    }
+  }
+`;
+const ImageContainer = styled.div`
+  flex: 1 1 55%; order: ${props => (props.$isTextLeft ? 2 : 1)}; display: flex; justify-content: center; align-items: center;
+  @media (max-width: 768px) {
+    order: 1;
+    flex-basis: auto;
+    width: 80%;
+  }
+  & > div { display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; }
+  img { max-width: 100%; max-height: 90vh; object-fit: contain; filter: drop-shadow(10px 15px 25px rgba(0,0,0,0.4)); }
+`;
+const ShopLink = styled(Link)` display: inline-block; padding: 1.2rem 2.5rem; border: 1px solid var(--accent); color: var(--text-primary); font-size: 1.6rem; font-weight: 600; border-radius: 50px; transition: all 0.3s ease; &:hover { background: var(--accent); color: var(--bg-dark); } `;
