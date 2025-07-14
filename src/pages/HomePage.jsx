@@ -23,7 +23,7 @@ const HomePage = () => {
 
   const handleQuickOrderClick = useCallback((product) => {
     setSelectedProduct(product);
-    setIsDetailModalOpen(false); // Закрываем детальное, если было открыто
+    setIsDetailModalOpen(false);
     setIsOrderModalOpen(true);
   }, []);
   
@@ -51,15 +51,20 @@ const HomePage = () => {
       </Modal>
 
       <HeroSection />
+      
       <SectionWrapper>
         <AboutSection />
       </SectionWrapper>
+      
       <SectionWrapper hasBackground>
+        {/* ВОТ ИСПРАВЛЕНИЕ. ДОБАВЛЯЕМ ПРОПСЫ. */}
         <FeaturedProducts onDetailClick={handleDetailClick} onOrderClick={handleQuickOrderClick} />
       </SectionWrapper>
+
       <SectionWrapper>
         <ContactSection />
       </SectionWrapper>
+      
       <SectionWrapper hasBackground>
         <ReviewsAnchor id="reviews">
           <ReviewsSection />

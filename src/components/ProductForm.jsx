@@ -1,20 +1,18 @@
+// Полностью замени содержимое этого файла
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const ProductForm = ({ onSubmit, productToEdit, onCancel }) => {
-  const [product, setProduct] = useState({
-    name: '',
-    description: '',
-    price: '',
-    imageUrl: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [product, setProduct] = useState({ name: '', price: '', description: '', imageUrls: [''] });
 
   useEffect(() => {
     if (productToEdit) {
-      setProduct(productToEdit);
+      setProduct({
+        ...productToEdit,
+        imageUrls: productToEdit.imageUrls?.length ? productToEdit.imageUrls : [productToEdit.imageUrl || ''],
+      });
     } else {
-      setProduct({ name: '', description: '', price: '', imageUrl: '' });
+      setProduct({ name: '', price: '', description: '', imageUrls: [''] });
     }
   }, [productToEdit]);
 
@@ -23,100 +21,108 @@ const ProductForm = ({ onSubmit, productToEdit, onCancel }) => {
     setProduct(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    await onSubmit(product);
-    setIsSubmitting(false);
-    setProduct({ name: '', description: '', price: '', imageUrl: '' });
+  const handleImageUrlChange = (index, value) => {
+    const newImageUrls = [...product.imageUrls];
+    newImageUrls[index] = value;
+    setProduct(prev => ({ ...prev, imageUrls: newImageUrls }));
   };
 
+  const addImageUrlField = () => {
+    setProduct(prev => ({ ...prev, imageUrls: [...prev.imageUrls, ''] }));
+  };
+
+  const removeImageUrlField = (index) => {
+    const newImageUrls = product.imageUrls.filter((_, i) => i !== index);
+    setProduct(prev => ({ ...prev, imageUrls: newImageUrls }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const finalProduct = {
+      ...product,
+      imageUrls: product.imageUrls.filter(url => url.trim() !== ''),
+      imageUrl: product.imageUrls.filter(url => url.trim() !== '')[0] || '', // Для совместимости
+    };
+    onSubmit(finalProduct);
+    setProduct({ name: '', price: '', description: '', imageUrls: [''] });
+  };
+  
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <Title>{productToEdit ? 'Редактировать товар' : 'Добавить новый товар'}</Title>
-      <Input name="name" value={product.name} onChange={handleChange} placeholder="Название товара" required />
+    <Form onSubmit={handleSubmit}>
+      <h3>{productToEdit ? 'Редактировать товар' : 'Добавить новый товар'}</h3>
+      <InputGrid>
+        <Input name="name" value={product.name} onChange={handleChange} placeholder="Название товара" required />
+        <Input name="price" type="number" value={product.price} onChange={handleChange} placeholder="Цена" required />
+      </InputGrid>
       <Textarea name="description" value={product.description} onChange={handleChange} placeholder="Описание" required />
-      <Input name="price" type="number" value={product.price} onChange={handleChange} placeholder="Цена (в рублях)" required />
-      <Input name="imageUrl" value={product.imageUrl} onChange={handleChange} placeholder="URL изображения" required />
-      <ButtonContainer>
-        {onCancel && <CancelButton type="button" onClick={onCancel}>Отмена</CancelButton>}
-        <SubmitButton type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Сохранение...' : (productToEdit ? 'Сохранить изменения' : 'Добавить товар')}
-        </SubmitButton>
-      </ButtonContainer>
-    </FormContainer>
+      
+      <ImageUrlsSection>
+        <label>Ссылки на изображения:</label>
+        {product.imageUrls.map((url, index) => (
+          <ImageInputWrapper key={index}>
+            <Input value={url} onChange={(e) => handleImageUrlChange(index, e.target.value)} placeholder={`URL изображения ${index + 1}`} />
+            {product.imageUrls.length > 1 && <RemoveButton type="button" onClick={() => removeImageUrlField(index)}>×</RemoveButton>}
+          </ImageInputWrapper>
+        ))}
+        <AddButton type="button" onClick={addImageUrlField}>+ Добавить фото</AddButton>
+      </ImageUrlsSection>
+      
+      <ActionButtons>
+        <SubmitButton type="submit">{productToEdit ? 'Сохранить изменения' : 'Добавить товар'}</SubmitButton>
+        {productToEdit && <CancelButton type="button" onClick={onCancel}>Отмена</CancelButton>}
+      </ActionButtons>
+    </Form>
   );
 };
 
 export default ProductForm;
 
-const FormContainer = styled.form`
-  padding: 2rem;
-  background-color: #111;
-  border-radius: 8px;
+const Form = styled.form`
   margin-bottom: 2rem;
-  border: 1px solid var(--ui-border);
+  padding: 1.5rem;
+  background: rgba(0,0,0,0.1);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
-
-const Title = styled.h3`
-  font-family: 'Playfair Display', serif;
-  text-align: center;
-  margin-bottom: 1.5rem;
+const InputGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 `;
-
 const Input = styled.input`
   width: 100%;
   padding: 0.8rem;
-  margin-bottom: 1rem;
   border-radius: 5px;
   border: 1px solid #444;
   background: #222;
   color: var(--text-primary);
   font-size: 1rem;
-  &:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
 `;
-
 const Textarea = styled.textarea`
   width: 100%;
-  min-height: 100px;
   padding: 0.8rem;
-  margin-bottom: 1rem;
   border-radius: 5px;
   border: 1px solid #444;
   background: #222;
   color: var(--text-primary);
   font-size: 1rem;
+  min-height: 100px;
   resize: vertical;
-  &:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
 `;
-
-const ButtonContainer = styled.div`
+const ImageUrlsSection = styled.div`
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
-
-const SubmitButton = styled.button`
-  padding: 0.8rem 1.5rem;
-  border-radius: 5px;
-  border: none;
-  background: var(--accent);
-  color: var(--bg-dark);
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-  &:hover { opacity: 0.8; }
-  &:disabled { background: #555; cursor: not-allowed; }
+const ImageInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
-
-const CancelButton = styled(SubmitButton)`
-  background: #555;
-  color: var(--text-primary);
-  &:hover { opacity: 0.8; }
-`;
+const RemoveButton = styled.button` background: #ff6b6b; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; `;
+const AddButton = styled.button` align-self: flex-start; background: transparent; border: 1px dashed #555; color: #999; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; `;
+const ActionButtons = styled.div` display: flex; gap: 1rem; margin-top: 1rem; `;
+const SubmitButton = styled.button` background: var(--accent); color: var(--bg-dark); padding: 0.8rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 700; `;
+const CancelButton = styled(SubmitButton)` background: #555; color: white; `;

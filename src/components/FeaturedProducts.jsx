@@ -1,4 +1,3 @@
-// Полностью замени содержимое этого файла
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getData } from '../api/gist';
@@ -13,7 +12,8 @@ const FeaturedProducts = ({ onDetailClick, onOrderClick }) => {
     const fetchProducts = async () => {
       try {
         const data = await getData();
-        setProducts(data.products.slice(0, 4)); // Берем 4 товара
+        // Берем 4 товара для главной, чтобы было симметрично
+        setProducts((data.products || []).slice(0, 4));
       } catch (err) {
         console.error("Failed to load featured products:", err);
       } finally {
@@ -33,8 +33,8 @@ const FeaturedProducts = ({ onDetailClick, onOrderClick }) => {
           <ProductCard
             key={product.id}
             product={product}
-            onDetailClick={onDetailClick} // Передаем клик дальше
-            onOrderClick={onOrderClick}   // Передаем клик дальше
+            onDetailClick={onDetailClick} // ПЕРЕДАЕМ КЛИК ДАЛЬШЕ
+            onOrderClick={onOrderClick}   // ПЕРЕДАЕМ КЛИК ДАЛЬШЕ
           />
         ))}
       </ProductsGrid>

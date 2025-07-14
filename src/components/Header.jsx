@@ -9,7 +9,7 @@ const navItemsLeft = [
 ];
 
 const navItemsRight = [
-  { path: '/news', label: 'Новости' },
+  { path: '/contacts', label: 'Контакты' },
   { path: '/reviews', label: 'Отзывы' },
 ];
 
