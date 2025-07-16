@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FaVk, FaInstagram, FaTelegramPlane, FaWhatsapp } from 'react-icons/fa';
+import { FaVk, FaTelegramPlane, FaWhatsapp } from 'react-icons/fa';
 
 const ContactSection = () => {
-  const mapUrl = "https://yandex.ru/map-widget/v1/?um=constructor%3A90ce842497a69fb12d87a7d727b122bf5d9e47110c4f702bd8e124891bfd8857&source=constructor";
-
   return (
     <SectionContainer
       initial={{ opacity: 0 }}
@@ -23,7 +21,6 @@ const ContactSection = () => {
           г. Барнаул, ул. Малахова, 87
         </Address>
         
-        {/* ВОТ ДОБАВЛЕННЫЙ БЛОК */}
         <SocialLinks>
             <a href="#" target="_blank" rel="noopener noreferrer" aria-label="ВКонтакте"><FaVk /></a>
             <a href="https://wa.me/79963007514" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><FaWhatsapp /></a>
@@ -33,7 +30,7 @@ const ContactSection = () => {
       </InfoWrapper>
       <MapWrapper>
         <iframe
-          src={mapUrl}
+          src="https://yandex.ru/map-widget/v1/?um=constructor%3A90ce842497a69fb12d87a7d727b122bf5d9e47110c4f702bd8e124891bfd8857&source=constructor"
           width="100%"
           height="100%"
           frameBorder="0"
@@ -88,12 +85,13 @@ const MapWrapper = styled.div`
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  
+  /* ФИЛЬТР УБРАН */
   iframe {
-    filter: grayscale(80%) contrast(1.2) opacity(0.8);
+    border: 0;
   }
 `;
 
-// ВОТ СТИЛИ ДЛЯ ИКОНОК
 const SocialLinks = styled.div`
   display: flex;
   gap: 2rem;
