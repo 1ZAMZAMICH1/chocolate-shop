@@ -49,7 +49,7 @@ const ModalContent = styled(motion.div)`
   border: 1px solid var(--ui-border);
   padding: 2rem;
   border-radius: 12px;
-  max-width: 500px;
+  max-width: 1000px;
   width: 90%;
   position: relative;
 `;
