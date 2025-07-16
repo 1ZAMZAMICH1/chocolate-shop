@@ -134,12 +134,99 @@ const OrderForm = ({ product, onOrderSuccess }) => {
 
 export default OrderForm;
 
-const FormWrapper = styled.div` display: grid; grid-template-columns: 40% 60%; width: 100%; height: 100%; max-width: 900px; max-height: 90vh; @media (max-width: 768px) { grid-template-columns: 1fr; grid-template-rows: 200px 1fr; } `;
-const ImagePreview = styled.div` width: 100%; height: 100%; background-size: cover; background-position: center; `;
-const FormContainer = styled.form` padding: 2.5rem; background-color: var(--bg-dark); display: flex; flex-direction: column; overflow-y: auto; gap: 1.2rem; h3 { font-size: 2.4rem; font-family: 'Cormorant Garamond', serif; text-align: center; margin-bottom: 0.5rem; } `;
-const ProductInfo = styled.p` text-align: center; margin-bottom: 2rem; color: var(--text-secondary); `;
-const SectionTitle = styled.h4` font-size: 1.4rem; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; margin-top: 1rem; `;
-const InputGrid = styled.div` display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; @media (max-width: 500px) { grid-template-columns: 1fr; } `;
-const Input = styled.input` width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid #444; background: #333; color: var(--text-primary); font-size: 1.6rem; &:focus { outline: none; border-color: var(--accent); } `;
-const Select = styled.select` width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid #444; background: #333; color: var(--text-primary); font-size: 1.6rem; &:focus { outline: none; border-color: var(--accent); } `;
-const SubmitButton = styled.button` margin-top: 1.5rem; padding: 1.2rem; border-radius: 8px; border: none; background: var(--accent); color: var(--bg-dark); font-size: 1.6rem; font-weight: 700; cursor: pointer; transition: opacity 0.3s ease; &:hover { opacity: 0.9; } &:disabled { background: #555; cursor: not-allowed; } `;
+const FormWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 40% 60%;
+  width: 100%;
+  height: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 200px 1fr;
+  }
+`;
+
+const ImagePreview = styled.div`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+`;
+
+const FormContainer = styled.form`
+  padding: 2.5rem;
+  background-color: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 1.2rem;
+  h3 { font-size: 2.4rem; font-family: 'Cormorant Garamond', serif; text-align: center; margin-bottom: 0.5rem; }
+`;
+
+const ProductInfo = styled.p`
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+`;
+
+const SectionTitle = styled.h4`
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 0.5rem;
+  margin-top: 1rem;
+`;
+
+const InputGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #333;
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+`;
+
+const Select = styled.select`
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #333;
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+`;
+
+const SubmitButton = styled.button`
+  margin-top: 1.5rem;
+  padding: 1.2rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: var(--bg-dark);
+  font-size: 1.6rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  &:hover { opacity: 0.9; }
+  &:disabled { background: #555; cursor: not-allowed; }
+`;
