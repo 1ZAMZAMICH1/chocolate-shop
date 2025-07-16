@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { FaVk, FaInstagram, FaTelegramPlane, FaWhatsapp } from 'react-icons/fa';
 
 const ContactSection = () => {
-  const mapUrl = "https://yandex.ru/maps/?um=constructor%3A90ce842497a69fb12d87a7d727b122bf5d9e47110c4f702bd8e124891bfd8857&source=constructor";
+  const mapUrl = "https://yandex.ru/map-widget/v1/?um=constructor%3A90ce842497a69fb12d87a7d727b122bf5d9e47110c4f702bd8e124891bfd8857&source=constructor";
 
   return (
     <SectionContainer
