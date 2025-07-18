@@ -77,7 +77,7 @@ const SectionTitle = styled.h2`
 
 const ProductsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 3rem;
   width: 100%;
 
