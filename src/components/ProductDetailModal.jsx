@@ -110,4 +110,5 @@ const Description = styled.p`
   color: var(--text-secondary);
   flex-grow: 1;
   margin-bottom: 2rem;
+  white-space: pre-wrap;
 `;

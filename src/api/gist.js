@@ -1,27 +1,31 @@
 // src/api/gist.js
+
 import axios from 'axios';
 
 const GIST_ID = import.meta.env.VITE_GIST_ID;
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 const GIST_URL = `https://api.github.com/gists/${GIST_ID}`;
 
-// Кэш для данных, чтобы не делать лишних запросов
+// Наш умный кеш
 let cachedData = null;
-let lastFetchTime = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5 минут
 
+// Функция для получения данных. Сначала смотрит в кеш.
 export const getData = async () => {
-  const now = Date.now();
-  // Если есть кэш и он не протух, возвращаем его
-  if (cachedData && (now - lastFetchTime < CACHE_DURATION)) {
+  if (cachedData) {
     return cachedData;
   }
 
   try {
-    const response = await axios.get(GIST_URL);
+    console.log("CACHE MISS: Fetching data from Gist...");
+    const response = await axios.get(GIST_URL, {
+      headers: {
+        // Добавляем заголовок, чтобы обходить кеш GitHub
+        'Cache-Control': 'no-cache',
+      }
+    });
+    
     const content = JSON.parse(response.data.files['choco-shop-db.json'].content);
-    cachedData = content; // Сохраняем в кэш
-    lastFetchTime = now; // Обновляем время
+    cachedData = content; // Сохраняем свежие данные в кеш
     return content;
   } catch (error) {
     console.error("Ошибка при получении данных из Gist:", error);
@@ -29,14 +33,16 @@ export const getData = async () => {
   }
 };
 
+// Функция для обновления данных. ГЛАВНОЕ: она сбрасывает кеш.
 export const updateData = async (newData) => {
   try {
+    console.log("UPDATING DATA: Clearing cache...");
     await axios.patch(
       GIST_URL,
       {
         files: {
           'choco-shop-db.json': {
-            content: JSON.stringify(newData, null, 2), // null, 2 для красивого форматирования
+            content: JSON.stringify(newData, null, 2),
           },
         },
       },
@@ -46,8 +52,10 @@ export const updateData = async (newData) => {
         },
       }
     );
-    // Сбрасываем кэш после обновления
+    
+    // СБРАСЫВАЕМ КЕШ ПОСЛЕ УСПЕШНОГО ОБНОВЛЕНИЯ
     cachedData = null; 
+    
     return true;
   } catch (error) {
     console.error("Ошибка при обновлении данных в Gist:", error);
