@@ -12,14 +12,10 @@ export const getData = async () => {
   }
 
   try {
-    console.log("CACHE MISS: Fetching data from Gist...");
     const response = await axios.get(GIST_URL, {
       headers: {
-        // ВОТ ГЛАВНОЕ ИСПРАВЛЕНИЕ: МЫ СНОВА ПЕРЕДАЕМ ТОКЕН
+        // ОСТАВЛЯЕМ ТОЛЬКО ТОКЕН. ВСЕ ЛИШНЕЕ УБИРАЕМ.
         'Authorization': `token ${GITHUB_TOKEN}`,
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache',
-        'Expires': '0',
       }
     });
     
@@ -28,15 +24,12 @@ export const getData = async () => {
     return content;
   } catch (error) {
     console.error("Ошибка при получении данных из Gist:", error);
-    // Проверяем, есть ли у нас старые данные в кеше на случай ошибки сети
-    if(cachedData) return cachedData;
     throw error;
   }
 };
 
 export const updateData = async (newData) => {
   try {
-    console.log("UPDATING DATA: Clearing cache...");
     await axios.patch(
       GIST_URL,
       {
